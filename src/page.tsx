@@ -51,7 +51,7 @@ export function Page(
     {
         path, h1, title,
         description,
-        ogImg = wt23posterSq, ogImgType = "image/png",
+        ogImg = wt23posterSq, ogImgType = "image/jpg",
         banner, article,
         ctime, mtime,
         documentClasses, articleClasses,
@@ -160,8 +160,10 @@ export function Page(
 
     // TODO: add og thumbs
 
-    const domain = 'https://bikejc.org'
-    const url = `${domain}${path}`
+    const domain = `bikejc.org`
+    const host = `https://${domain}`
+    const url = `${host}${path}`
+    const thumbnail = `https://bikejc.org${ogImg}`
     return (
         <>
             <meta content="width=device-width, maximum-scale = 1.0" name="viewport" />
@@ -172,21 +174,20 @@ export function Page(
             <meta property="og:title" content={title} />
             <meta property="og:type" content="website" />
             <meta property="og:url" content={url} />
-            {
-                ogImg && <>
-                    <meta property="og:image" content={`http://bikejc.org${ogImg}`} />
-                    <meta property="og:image:secure_url" content={`https://bikejc.org${ogImg}`} />
-                    {ogImgType && <meta content={ogImgType} property={"og:image:type"} />}
-                </>
-            }
+            {ogImg && <meta property="og:image" content={thumbnail} />}
             {descriptionTag({ property: "og:description" })}
             {mtime && <meta property="og:updated_time" content={mtime} />}
+
             <meta name="twitter:card" content="summary_large_image" />
-            <meta name="twitter:url" content={url} />
+            <meta property="twitter:domain" content={domain} />
+            <meta property="twitter:url" content={url} />
             <meta name="twitter:title" content={title} />
+            <meta name="twitter:image" content={thumbnail} />
             {descriptionTag({ name: "twitter:description" })}
+
             {ctime && <meta property="article:published_time" content={ctime} />}
             {mtime && <meta property="article:modified_time" content={mtime} />}
+
             <Script src="/files/drupal.js"></Script>
             <Script src="/files/foundation-init.js"></Script>
             <Head>
